@@ -8,7 +8,7 @@ This course is optional without assessment or credit associated with it. We hope
 Course format:
 ---------------
 
-We have a list of topics, split between us, and on the day, whoever is there picks what they want to hear about, and we will run an improvised session on that topic. If a topic needs more time / is of particular interest, we can return to it in a following week.
+We have a list of topics, split between us, and on the day, whoever is there picks what they want to hear about, and we will run an improvised session on that topic.
 
 Topics:
 --------
