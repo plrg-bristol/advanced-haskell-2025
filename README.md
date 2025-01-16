@@ -8,101 +8,59 @@ This course is optional without assessment or credit associated with it. We hope
 Course format:
 ---------------
 
-We have a list of topics, split between us, and on the day, whoever is there picks what they want to hear about, and we will run an improvised session on that topic.
+We have a list of topics, split between us, and on the day, whoever is there picks what they want to hear about, and we will run an improvised session on that topic. If a topic needs another session to cover properly, we will continue it in the next session.
 
 Topics:
 --------
 
-These topics are split into three difficulty categories: Advanced Haskell, More Advanced Haskell and Most Advanced Haskell. Just to provide a little bit of guidance of what topics should be covered first.
+These topics are split into three categories: Advanced Haskell, More Advanced Haskell, and I Can't Believe It's Not Haskell! (for functional programming topics which are better demonstrated in another language or on a whiteboard).
 
-Some topics follow on better from others, so will have "prerequisites". Some topics are based on previous courses, so have worksheets that go with them that we will share if there is interest.
+Some topics follow on better from others and therefore have "prerequisites". Some topics are based on previous courses, so we can share worksheets that go with them if there is interest.
 
 Advanced Haskell:
-- More Monads (Reader, Writer, State, MonadFail, MonadState)
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - None (we will start with a recap of Monads)
-- Property Based Testing
-  * Speaker - Sam
-  * Worksheets? - No
-  * Prerequisites - None
-- Parsers
-  * Speaker - Sam
-  * Worksheets? - Yes
-  * Prerequisites - None
-- Domain Specific Languages
-  * Speaker - Sam
-  * Worksheets? - Yes
-  * Prerequisites - None
-- Structural Inductive Proofs
-  * Speaker - Sam
-  * Worksheets? - Yes
-  * Prerequisites - None
-- Monoids
-  * Speaker - Sam
-  * Worksheets? - Yes
-  * Prerequisites - None
-- Interesting data types
-  * Speaker - Jess
-  * Worksheets? - Yes
-  * Prerequisites - None
-- Games
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - None
-- Let's make a CPU Simulator
-  * Speaker - Jess
-  * Worksheets? - Yes
-  * Prerequisites - None
-- Let's redo Sketch
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - None
+- Expressive power scaling: Functor vs Applicative vs Monad
+  * Seminar lead: Jess
+- Monad Transformers
+  * Seminar lead: Jess
+- Timing and Concurrency
+  * Seminar lead: Jess
 - Arrows
-  * Speaker - Jess
-  * Worksheets - sort of
-  * Prerequisites - None
+  * Seminar lead: Jess
+- Property Based Testing
+  * Seminar lead: Sam
+- Parsers
+  * Seminar lead: Sam
+- Domain Specific Languages
+  * Seminar lead: Sam
+- Monoids
+  * Seminar lead: Sam
+- Object to Objects: Game Development in Haskell
+  * Seminar lead: Jess
+- Let's make a CPU Simulator
+  * Seminar lead: Jess
+- Let's redo Sketch: Binary operations in Haskell
+  * Seminar lead: Jess
+- Integrated Haskell Project (IHP): Haskell on Rails for web development
+  * Seminar lead: Jess
 
 More Advanced Haskell:
 - Effects
-  * Speaker - Sam
-  * Worksheets - sort of
-  * Prerequisites - More monads / DSLs
-- Timing and Concurrency
-  * Speaker - Jess
-  * Worksheets - sort of
-  * Prerequisites - More monads
-- Generalised Algebraic Data Types (GADTs)
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - None
+  * Seminar lead: Sam
+  * Prerequisites - Expressive power scaling / DSLs
+- Generalised Algebraic Data Types (GADTs) and "Dependent types"
+  * Seminar lead: Jess
 - Lenses
-  * Speaker - Sam
-  * Worksheets? - No
-  * Prerequisites - none
-- Monad Transformers
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - More Monads
-- "Dependent types"
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - None
-- Curry-Howard
-  * Speaker - Sam
-  * Worksheets - yes from types
-  * Prerequisites - Dependent types
-- Integrated Haskell Project (web framework)
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - None
-- Functional Reactive Programming
-  * Speaker - Jess
-  * Worksheets? - No
-  * Prerequisites - None
-
-Most Advanced Haskell
+  * Seminar lead: Sam
 - Comonads (game of life)
-  * Speaker - Sam
-  * Worksheets? - No
-  * Prerequisites - More Monads
+  * Seminar lead: Sam
+
+I Can't Believe It's Not Haskell!:
+- True Dependent Types and Code-as-Proof (Lean4 or Agda)
+  * Seminar lead: Jess
+- Structural Inductive Proofs
+  * Seminar lead: Sam
+  * Prerequisites: Code-as-Proof
+- Curry-Howard
+  * Seminar lead: Sam
+  * Prerequisites: Code-as-Proof
+- Category Theory
