@@ -28,7 +28,7 @@ Advanced Haskell:
   * Seminar lead: Jess
 - Property Based Testing
   * Seminar lead: Sam
-- Parsers
+- Applicative Parsers
   * Seminar lead: Sam
 - Domain Specific Languages
   * Seminar lead: Sam
