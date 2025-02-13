@@ -20,6 +20,7 @@ Some topics follow on better from others and therefore have "prerequisites". Som
 Advanced Haskell:
 - Expressive power scaling: Functor vs Applicative vs Monad
   * Seminar lead: Jess
+  * Status: COMPLETE
 - Monad Transformers
   * Seminar lead: Jess
 - Timing and Concurrency

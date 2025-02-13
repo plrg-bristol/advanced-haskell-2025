@@ -1,4 +1,4 @@
-{-# language InstanceSigs #-}
+{-# language InstanceSigs, KindSignatures #-}
 module FunctorApplicativeMonad where
 
 import Prelude hiding (Functor(..), Applicative(..))
@@ -9,12 +9,12 @@ class Functor f where
 
 instance Functor (Either a) where
   fmap :: (b -> c) -> Either a b -> Either a c
-  fmap f (Left a) = Left a
+  fmap _ (Left a) = Left a
   fmap f (Right x) = Right (f x)
 
 instance Functor Maybe where
   fmap f Nothing = Nothing
-  fmap f (Just x) = Nothing
+  fmap f (Just x) = Just (f x) -- Nothing
 
 -- >>> id Nothing
 -- Nothing
@@ -63,3 +63,27 @@ instance Applicative Maybe where
   Nothing <*> mb      = Nothing
   Just f  <*> Nothing = Nothing
   Just f  <*> Just x  = Just (f x)
+
+-- Monad
+
+-- comp ctx
+-- adding more power to functors, breaking up comp into chunks and comping
+-- intro side effects
+
+-- class Monad (m :: * -> *) where
+--   -- (>>=) :: m a -> (m b -> c) -> m c
+--   (>>=) :: m a -> (a -> m b) -> m b
+--   fmap' :: f a -> (a ->   b) -> m b
+--   join :: m (m a) -> m a
+
+joinList :: [[a]] -> [a]
+joinList = concat
+
+bindList :: [a] -> (a -> [b]) -> [b]
+bindList = flip concatMap
+
+apM :: Monad f => f (a -> b) -> f a -> f b
+apM mf mx = do
+  f <- mf
+  x <- mx
+  return (f x)
