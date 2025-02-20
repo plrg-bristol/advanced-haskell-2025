@@ -43,6 +43,8 @@ Advanced Haskell:
   * Seminar lead: Jess
 - Integrated Haskell Project (IHP): Haskell on Rails for web development
   * Seminar lead: Jess
+- Structural Inductive Proofs
+  * Seminar lead: Sam
 
 More Advanced Haskell:
 - Effects
@@ -58,9 +60,7 @@ More Advanced Haskell:
 I Can't Believe It's Not Haskell!:
 - True Dependent Types and Code-as-Proof (Lean4 or Agda)
   * Seminar lead: Jess
-- Structural Inductive Proofs
-  * Seminar lead: Sam
-  * Prerequisites: Code-as-Proof
+
 - Curry-Howard
   * Seminar lead: Sam
   * Prerequisites: Code-as-Proof
