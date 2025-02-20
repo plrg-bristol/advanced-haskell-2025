@@ -13,7 +13,7 @@ instance Functor (Either a) where
   fmap f (Right x) = Right (f x)
 
 instance Functor Maybe where
-  fmap f Nothing = Nothing
+  fmap _ Nothing = Nothing
   fmap f (Just x) = Just (f x) -- Nothing
 
 -- >>> id Nothing
@@ -60,8 +60,8 @@ instance Applicative Maybe where
   pure x = Just x
 
   (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
-  Nothing <*> mb      = Nothing
-  Just f  <*> Nothing = Nothing
+  Nothing <*> _       = Nothing
+  Just _  <*> Nothing = Nothing
   Just f  <*> Just x  = Just (f x)
 
 -- Monad
