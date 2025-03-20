@@ -18,9 +18,8 @@ These topics are split into three categories: Advanced Haskell, More Advanced Ha
 Some topics follow on better from others and therefore have "prerequisites". Some topics are based on previous courses, so we can share worksheets that go with them if there is interest.
 
 Advanced Haskell:
-- Expressive power scaling: Functor vs Applicative vs Monad
+- ~~Expressive power scaling: Functor vs Applicative vs Monad~~
   * Seminar lead: Jess
-  * Status: COMPLETE
 - Monad Transformers
   * Seminar lead: Jess
 - Timing and Concurrency
@@ -35,8 +34,9 @@ Advanced Haskell:
   * Seminar lead: Sam
 - Monoids
   * Seminar lead: Sam
-- Object to Objects: Game Development in Haskell
+- ~~Object to Objects: Game Development in Haskell~~
   * Seminar lead: Jess
+  * Slides [here](https://docs.google.com/presentation/d/1i4Qeb1SaQDL2bZ2dfk6xSxSzIhRVTGS7hya1x1TFFDg/edit?usp=sharing)
 - Let's make a CPU Simulator
   * Seminar lead: Jess
 - Let's redo Sketch: Binary operations in Haskell
