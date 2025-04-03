@@ -58,7 +58,10 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  FunctorApplicativeMonad, Fix, MonadTrans
+    exposed-modules:  FunctorApplicativeMonad,
+                      Fix,
+                      MonadTrans,
+                      Concurrency
 
     -- Modules included in this library but not exported.
     -- other-modules:
