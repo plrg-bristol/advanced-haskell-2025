@@ -61,7 +61,8 @@ library
     exposed-modules:  FunctorApplicativeMonad,
                       Fix,
                       MonadTrans,
-                      Concurrency
+                      Concurrency,
+                      Optics
 
     -- Modules included in this library but not exported.
     -- other-modules:

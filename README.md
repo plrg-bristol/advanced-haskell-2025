@@ -20,7 +20,7 @@ Some topics follow on better from others and therefore have "prerequisites". Som
 Advanced Haskell:
 - ~~Expressive power scaling: Functor vs Applicative vs Monad~~
   * Seminar lead: Jess
-- Monad Transformers
+- ~~Monad Transformers~~
   * Seminar lead: Jess
 - Timing and Concurrency
   * Seminar lead: Jess
@@ -52,7 +52,7 @@ More Advanced Haskell:
   * Prerequisites - Expressive power scaling / DSLs
 - Generalised Algebraic Data Types (GADTs) and "Dependent types"
   * Seminar lead: Jess
-- Lenses
+- Lenses (+ prisms)
   * Seminar lead: Sam
 - Comonads (game of life)
   * Seminar lead: Sam

@@ -2,7 +2,7 @@
 module MonadTrans where
 
 import Control.Monad.Except
-import Control.Monad.IO.Class
+-- import Control.Monad.IO.Class
     -- more than one monad at once
     -- MT allow more than one monad at once
     -- there are two ways of doing this
