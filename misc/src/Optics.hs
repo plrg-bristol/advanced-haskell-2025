@@ -21,6 +21,7 @@ data Lens s v = Lens
     , put :: s -> v -> s
     }
 
+-- laws:
 -- PutGet
 --   get L (put L s v) = v
 -- GetPut
@@ -30,6 +31,7 @@ data Lens s v = Lens
 --  (put L s v) = put L (put L s v) v
 --   put l v' (put l v s) ≡ put l v' s
 
+-- building block lenses:
 r :: Lens R (Int, Char)
 r = Lens g p
     where
@@ -58,6 +60,7 @@ rTup = Lens g p
 -- map (\r -> (get rInt r, get rChar r) (R 4 'c')
 -- map <$> <*> <**> <.> <>
 
+-- combinators:
 tup :: Lens s v -> Lens s u -> Lens s (v,u)
 tup lv lu = Lens g p
     where
