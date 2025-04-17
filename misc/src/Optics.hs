@@ -1,9 +1,14 @@
+{-# language InstanceSigs #-}
 
 module Optics where
+
+import Prelude hiding ((.))
+import Control.Category
 
 -- record syntax (aside)
 data R = R Int Char deriving Show
 
+exR :: R
 exR = R 5 'x'
 
 getInt :: R -> Int
@@ -32,6 +37,7 @@ data Lens s v = Lens
 --   put l v' (put l v s) ≡ put l v' s
 
 -- building block lenses:
+-- monolithically defined
 r :: Lens R (Int, Char)
 r = Lens g p
     where
@@ -70,6 +76,54 @@ tup lv lu = Lens g p
 rTup' :: Lens R (Int, Char)
 rTup' = tup rInt rChar
 
+-- double zoom
+(>>>>) :: Lens s v -> Lens v u -> Lens s u
+(>>>>) l1 l2 = Lens g p
+    where
+        g s = get l2 (get l1 s)
+        -- p :: s -> u -> s
+        p s u = put l1 s (put l2 (get l1 s) u)
+
+data World = World
+    { time :: Int
+    , player :: Player}
+
+data Player = Player
+    { name :: String
+    , hairColour :: Bool}
+
+w2p :: Lens World Player
+w2p = Lens g p
+    where
+        g s = player s
+        -- p w pl = World (time w) pl
+        -- record syntax update
+        p w pl = w { player = pl}
+
+p2h :: Lens Player Bool
+p2h = Lens g p
+    where
+        g = hairColour
+        p pl b = Player (name pl) b
+
+worldToHairColour :: Lens World Bool
+worldToHairColour = w2p >>>> p2h
 
 -- type class combinators (profunctors, category)
+
+instance Category Lens where
+    id :: Lens a a
+    id = Lens Prelude.id (\s v -> v)
+
+    (.) :: Lens v u -> Lens s v -> Lens s u
+    (.) = flip (>>>>)
+
+instance Functor (Lens s) where
+    fmap :: (v -> v') -> Lens s v -> Lens s v'
+    fmap f (Lens g1 p1) = Lens g p
+        where
+            g = f . g1
+            p s v' = undefined -- ut oh!
+            -- this is not a functor -- its a profunctor
+
 -- prisms
