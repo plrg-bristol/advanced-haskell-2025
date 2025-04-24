@@ -43,13 +43,13 @@ r = Lens g p
     where
         g :: R -> (Int, Char)
         g (R i c) = (i,c)
-        p (R i c) (i', c') = R i' c'
+        p (R _ _) (i', c') = R i' c'
 
 rInt :: Lens R Int
 rInt = Lens g p
     where
-        g (R i c) = i
-        p (R i c) i' = R i' c
+        g (R i _) = i
+        p (R _ c) i' = R i' c
 
 rChar :: Lens R Char
 rChar = Lens g p
@@ -118,12 +118,60 @@ instance Category Lens where
     (.) :: Lens v u -> Lens s v -> Lens s u
     (.) = flip (>>>>)
 
+-- functor is covariant
 instance Functor (Lens s) where
     fmap :: (v -> v') -> Lens s v -> Lens s v'
-    fmap f (Lens g1 p1) = Lens g p
+    fmap f (Lens g1 p1) = Lens g (\s v' -> p1 s (undefined v'))
+    -- p1 expects a v not a v'
+    -- need v' -> v
+    -- but all we have is (v -> v')
+
         where
             g = f . g1
-            p s v' = undefined -- ut oh!
+            -- p s v' = _ -- ut oh!
             -- this is not a functor -- its a profunctor
+
+-- contravariant functor
+-- Data.Functor.Contravariant (base)
+class Contravariant f where
+    contramap :: (a -> b) -> f b -> f a
+
+instance Contravariant (Lens s) where
+    contramap :: (a -> b) -> Lens s b -> Lens s a
+    contramap f (Lens g1 p1)
+        = Lens
+            (undefined . g1)
+                -- goal : s -> a
+                -- g1 : s -> b
+                -- fwd arrow missing!
+            (\s v' -> p1 s (f v'))
+
+
+-- profunctors
+class Profunctor p where
+    rmap :: (a -> b) -> p c a -> p c b -- covariant
+    lmap :: ((->) d c) -> p c a -> p d a -- contravariant
+
+instance Profunctor (->) where
+    -- rmap :: (a -> b) -> ((->) c a) -> ((->) c b)
+    rmap :: (a -> b) -> (c -> a) -> (c -> b)
+    rmap aToB cToA = aToB . cToA -- cToB
+                   -- b <- a <- c
+    lmap :: (d -> c) -> (c -> a) -> (d -> a)
+    lmap dToC cToA= \d -> cToA (dToC d)
+
+instance Profunctor Lens where
+    lmap :: (s -> s') -> Lens s' v -> Lens s v
+    lmap f (Lens g1 p1) = Lens (g1 . f) (\s v -> undefined (p1 (f s) v))
+    -- all we did was combine the classes, each of which had functions we could
+    -- not define!
+    -- lmap has a problem with p
+    -- rmap has a problem with g
+
+-- either lens needs to change
+-- or profunctor needs to
+    -- maybe instead of a function we take p
+-- for the answer see https://www.pure.ed.ac.uk/ws/portalfiles/portal/286181739/Composing_Bidirectional_XIA_DOA25012019_VOR_CC_BY.pdf
+-- or the journal extension that sam is involved with, see pdf monadic-profunctors-journal.pdf
 
 -- prisms
