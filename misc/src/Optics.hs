@@ -54,8 +54,8 @@ rInt = Lens g p
 rChar :: Lens R Char
 rChar = Lens g p
     where
-        g (R i c) = c
-        p (R i c) c' = R i c'
+        g (R _ c) = c
+        p (R i _) c' = R i c'
 
 rTup :: Lens R (Int, Char)
 rTup = Lens g p

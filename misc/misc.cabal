@@ -62,7 +62,8 @@ library
                       Fix,
                       MonadTrans,
                       Concurrency,
-                      Optics
+                      Optics,
+                      AppParsers
 
     -- Modules included in this library but not exported.
     -- other-modules:
