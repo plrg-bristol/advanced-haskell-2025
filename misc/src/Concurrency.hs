@@ -9,11 +9,13 @@ readWordsChan :: FilePath -> IO (Chan (Maybe String))
 readWordsChan path = do
     f <- readFile path
     c <- newChan
-    _ <- forkIO $ do
+    tid <- forkIO $ do
         forM_ (words f) $ \w -> do
             writeChan c (Just w)
             threadDelay 1000000
+            -- threadDelay 10
         writeChan c Nothing
+    -- killThread tid
     pure c
 
 main :: IO ()

@@ -45,6 +45,8 @@ Advanced Haskell:
   * Seminar lead: Jess
 - Structural Inductive Proofs
   * Seminar lead: Sam
+- Linear Haskell
+
 
 More Advanced Haskell:
 - Effects
