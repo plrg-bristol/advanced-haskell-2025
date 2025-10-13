@@ -62,8 +62,8 @@ More Advanced Haskell:
 I Can't Believe It's Not Haskell!:
 - True Dependent Types and Code-as-Proof (Lean4 or Agda)
   * Seminar lead: Jess
-
 - Curry-Howard
   * Seminar lead: Sam
   * Prerequisites: Code-as-Proof
 - Category Theory
+  * Seminar lead: Tom
