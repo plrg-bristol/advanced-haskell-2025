@@ -84,7 +84,7 @@ exampleTape = Tape [3,2,1] 4 [5,6,7]
 -- Just (Tape [] 1 [2,3,4,5,6,7])
 
 moveLeft :: Tape a -> Maybe (Tape a)
-moveLeft (Tape [] a asR)     = Nothing
+moveLeft (Tape [] _ _)     = Nothing
 moveLeft (Tape (x:xs) a asR) = Just (Tape xs x (a:asR))
 
 -- >>> moveRight exampleTape
@@ -94,7 +94,7 @@ moveLeft (Tape (x:xs) a asR) = Just (Tape xs x (a:asR))
 -- Just (Tape [6,5,4,3,2,1] 7 [])
 
 moveRight :: Tape a -> Maybe (Tape a)
-moveRight (Tape asL a [])     = Nothing
+moveRight (Tape _ _ [])     = Nothing
 moveRight (Tape asL a (x:xs)) = Just (Tape (a:asL) x xs)
 
 -- >>> allRights (Tape [1] 2 [3,4,5])
