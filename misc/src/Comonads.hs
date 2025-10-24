@@ -116,7 +116,6 @@ allLefts = unfoldr (\t -> fmap dup (moveLeft t))
 instance Comonad Tape where
   extract :: Tape a -> a
   extract (Tape asL a asR) = a
-  -- TODO finish defining
   duplicate :: Tape a -> Tape (Tape a)
   duplicate t = Tape (allLefts t) t (allRights t)
 
