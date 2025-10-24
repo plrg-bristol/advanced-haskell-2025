@@ -67,3 +67,7 @@ I Can't Believe It's Not Haskell!:
   * Prerequisites: Code-as-Proof
 - Category Theory
   * Seminar lead: Tom
+- Automata & Regular Expressions
+  * Seminar lead: Charlie
+- Types are Properties
+  * Seminar lead: Charlie
