@@ -2,6 +2,8 @@
 
 module Comonads where
 
+import Data.List (unfoldr)
+
 class Functor m => MonaDD m where
   purEE :: a -> m a
   binDD :: m a -> (a -> m b) -> m b
@@ -41,6 +43,9 @@ class Functor w => Comonad w where
   -- mitosis :: w a -> w (w a)
   duplicate :: w a -> w (w a)
 
+  duplicate = extend id
+  extend f wa = fmap f (duplicate wa)
+
 {-
 ~cofunctor interlude~
 ... not to be confused with contravariant functors
@@ -65,16 +70,55 @@ instance Functor Tape where
 -- extend f . extend g = extend (f . extend g)
 
 -- Same laws, easier to understand in terms of duplicate
--- extract . duplicate      = id
--- fmap extract . duplicate = id
+-- extract . duplicate        = id
+-- (fmap extract) . duplicate = id
 -- duplicate . duplicate    = fmap duplicate . duplicate
+
+exampleTape :: Tape Int
+exampleTape = Tape [3,2,1] 4 [5,6,7]
+
+-- >>> moveLeft exampleTape
+-- Just (Tape [2,1] 3 [4,5,6,7])
+
+-- >>> (moveLeft >=> moveLeft >=> moveLeft) exampleTape
+-- Just (Tape [] 1 [2,3,4,5,6,7])
+
+moveLeft :: Tape a -> Maybe (Tape a)
+moveLeft (Tape [] a asR)     = Nothing
+moveLeft (Tape (x:xs) a asR) = Just (Tape xs x (a:asR))
+
+-- >>> moveRight exampleTape
+-- Just (Tape [4,3,2,1] 5 [6,7])
+
+-- >>> (moveRight >=> moveRight >=> moveRight) exampleTape
+-- Just (Tape [6,5,4,3,2,1] 7 [])
+
+moveRight :: Tape a -> Maybe (Tape a)
+moveRight (Tape asL a [])     = Nothing
+moveRight (Tape asL a (x:xs)) = Just (Tape (a:asL) x xs)
+
+-- >>> allRights (Tape [1] 2 [3,4,5])
+-- [Tape [2,1] 3 [4,5],Tape [3,2,1] 4 [5],Tape [4,3,2,1] 5 []]
+
+allRights :: Tape a -> [Tape a]
+allRights = unfoldr (\t -> fmap dup (moveRight t))
+  -- unfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+
+dup :: a -> (a,a)
+dup x = (x,x)
+
+-- >>> allLefts (Tape [5,4,3] 6 [])
+-- [Tape [4,3] 5 [6],Tape [3] 4 [5,6],Tape [] 3 [4,5,6]]
+
+allLefts  :: Tape a -> [Tape a]
+allLefts = unfoldr (\t -> fmap dup (moveLeft t))
 
 instance Comonad Tape where
   extract :: Tape a -> a
   extract (Tape asL a asR) = a
   -- TODO finish defining
-  extend = undefined
-  duplicate = undefined
+  duplicate :: Tape a -> Tape (Tape a)
+  duplicate t = Tape (allLefts t) t (allRights t)
 
 
 -- TODO intro grid for game of life
