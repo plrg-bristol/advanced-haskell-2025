@@ -15,7 +15,7 @@ Topics:
 
 These topics are split into three categories: Advanced Haskell, More Advanced Haskell, and I Can't Believe It's Not Haskell! (for functional programming topics which are better demonstrated in another language or on a whiteboard).
 
-Some topics follow on better from others and therefore have "prerequisites". Some topics are based on previous courses, so we can share worksheets that go with them if there is interest.
+Some topics follow on bettwer from others and therefore have "prerequisites". Some topics are based on previous courses, so we can share worksheets that go with them if there is interest.
 
 Advanced Haskell:
 - ~~Expressive power scaling: Functor vs Applicative vs Monad~~

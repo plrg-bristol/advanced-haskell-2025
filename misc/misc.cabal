@@ -63,7 +63,8 @@ library
                       MonadTrans,
                       Concurrency,
                       Optics,
-                      AppParsers
+                      AppParsers,
+                      GADTs
 
     -- Modules included in this library but not exported.
     -- other-modules:
