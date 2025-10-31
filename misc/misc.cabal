@@ -64,6 +64,7 @@ library
                       Concurrency,
                       Optics,
                       AppParsers,
+                      Comonads,
                       GADTs
 
     -- Modules included in this library but not exported.

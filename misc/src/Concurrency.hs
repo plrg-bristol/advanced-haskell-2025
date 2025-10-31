@@ -27,3 +27,6 @@ main = do
         case w of
             Just x -> putStrLn (reverse x)
             Nothing -> undefined
+
+-- STM?
+-- after game of life, can we make it concurrent?
