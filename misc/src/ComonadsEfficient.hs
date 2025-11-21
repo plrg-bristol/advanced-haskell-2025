@@ -1,11 +1,11 @@
 {-# LANGUAGE InstanceSigs #-}
 
-module Comonads where
+module ComonadsEfficient where
 
 import Data.List (unfoldr)
 import Data.Maybe
 import Control.Concurrent
-import qualified Data.Map as Map
+import qualified Data.Map as Map 
 import Data.Map (Map)
 
 import Flow
@@ -128,91 +128,79 @@ instance Comonad Tape where
 -- game of life
 -- data Store coord a = Store (coord -> a)
 
-newtype Grid a = Grid ((Int, Int) -> a)
+data Grid a = Grid a (Map (Int, Int) a)
 
 instance Functor Grid where
   fmap :: (a -> b) -> Grid a -> Grid b
-  fmap f (Grid lookup) = Grid (\c -> f (lookup c))
-  -- fmap f (Grid lookup) = Grid (f . lookup)
-  -- a :: (Int, Int) -> a
+  fmap f (Grid defA m) = Grid (f defA) (fmap f m)
 
 instance Comonad Grid where
   extract :: Grid a -> a
-  extract (Grid f) = f (0,0)
+  extract (Grid defA m) = Map.findWithDefault defA (0,0) m
 
   duplicate :: Grid a -> Grid (Grid a)
-  duplicate (Grid f) = Grid $ \(x,y) ->
-    Grid $ \(a,b) -> f (a+x,b+y)
+  duplicate (Grid defA m) = Grid undefined undefined -- $ \(x,y) ->
+    -- Grid $ \(a,b) -> f (a+x,b+y)
 
 
-type Rule = Grid Bool -> Bool
+-- type Rule = Grid Bool -> Bool
 
-neighbourhood :: [(Int,Int)]
-neighbourhood = [(x,y) | x <- [-1..1], y <- [-1..1], (x,y) /= (0,0)]
+-- neighbourhood :: [(Int,Int)]
+-- neighbourhood = [(x,y) | x <- [-1..1], y <- [-1..1], (x,y) /= (0,0)]
 
-gameOfLifeRule :: Rule
-gameOfLifeRule g@(Grid lookup) =
-  let
-    -- alive = lookup (0,0)
-    alive = extract g
-    neighboursAlive = length $ filter (==True) [ lookup c | c <- neighbourhood]
-  in (not alive && neighboursAlive == 3)
-    || (alive && (neighboursAlive == 2 || neighboursAlive == 3))
-    -- || (alive && (neighboursAlive `elem` [2,3]))
-  -- let 
+-- gameOfLifeRule :: Rule
+-- gameOfLifeRule g@(Grid lookup) =
+--   let
+--     -- alive = lookup (0,0)
+--     alive = extract g
+--     neighboursAlive = length $ filter (==True) [ lookup c | c <- neighbourhood]
+--   in (not alive && neighboursAlive == 3)
+--     || (alive && (neighboursAlive == 2 || neighboursAlive == 3))
+--     -- || (alive && (neighboursAlive `elem` [2,3]))
+--   -- let 
 
-step :: Rule -> Grid Bool -> Grid Bool
--- step :: (Grid Bool -> Bool) -> Grid Bool -> Grid Bool
-step = extend
+-- step :: Rule -> Grid Bool -> Grid Bool
+-- -- step :: (Grid Bool -> Bool) -> Grid Bool -> Grid Bool
+-- step = extend
 
-printGrid :: Int -> Int -> Grid Bool -> IO ()
-printGrid width height = view width height .> putStrLn
+-- printGrid :: Int -> Int -> Grid Bool -> IO ()
+-- printGrid width height = view width height .> putStrLn
 
-view :: Int -> Int -> Grid Bool -> String
-view width height (Grid lookupG)
-  = unlines [[ viewCell (lookupG (x,y)) | y <- [0..height]] | x <- [0..width]]
-  where
-    viewCell False = '.'
-    viewCell True = '#'
+-- view :: Int -> Int -> Grid Bool -> String
+-- view width height (Grid lookupG)
+--   = unlines [[ viewCell (lookupG (x,y)) | y <- [0..height]] | x <- [0..width]]
+--   where
+--     viewCell False = '.'
+--     viewCell True = '#'
 
-egGrid :: Grid Bool
-egGrid = Grid $ \c -> Map.findWithDefault False c egGridData
+-- egGrid :: Grid Bool
+-- egGrid = Grid $ \c ->
+--   gridPattern
+--   |> zip [0..]
+--   |> concatMap (\(x, str) -> zipWith (\y char -> ((x,y), toCell char)) [0..] str)  -- fromJust $ lookup c $ zip $ 
+--   |> lookup c
+--   |> maybe False id
+--   where
+--     gridPattern
+--       = [ "......"
+--         , "....#."
+--         , "..#.#."
+--         , "...##."
+--         , "......"
+--         , "......"
+--         ]
+
+--     toCell '.' = False
+--     toCell '#' = True
+
+-- -- >>> view 10 10 egGrid
+-- -- "..##.#.....\n..##.#.....\n..##.#.....\n...........\n...........\n...........\n...........\n...........\n...........\n...........\n...........\n"
 
 
-egGridData :: Map (Int, Int) Bool
-egGridData =
-  gridPattern
-  |> zip [0..]
-  |> concatMap (\(x, str) -> zipWith (\y char -> ((x,y), toCell char)) [0..] str)  -- fromJust $ lookup c $ zip $ 
-  |> filter (\(_, b) -> b)
-  |> Map.fromList
-  -- |> lookup c
-  -- |> maybe False id
-  where
-    gridPattern
-      = [ "......"
-        , "....#."
-        , "..#.#."
-        , "...##."
-        , "......"
-        , "......"
-        ]
+-- gameOfLifeLoop :: Grid Bool -> IO ()
+-- gameOfLifeLoop grid = do
+--   printGrid 10 10 grid
+--   threadDelay 1000
+--   gameOfLifeLoop (step gameOfLifeRule grid)
 
-    toCell '.' = False
-    toCell '#' = True
-
--- >>> view 10 10 egGrid
--- "..##.#.....\n..##.#.....\n..##.#.....\n...........\n...........\n...........\n...........\n...........\n...........\n...........\n...........\n"
-
-stepNTimes :: (Ord t, Num t) => t -> Grid Bool -> Grid Bool
-stepNTimes n grid
-  | n <= 0 = grid
-  | otherwise = stepNTimes (n - 1) (step gameOfLifeRule grid)
-
-gameOfLifeLoop :: Grid Bool -> IO ()
-gameOfLifeLoop grid = do
-  printGrid 10 10 grid
-  threadDelay 1000
-  gameOfLifeLoop (stepNTimes 10 grid)
-
--- ... TODO? Jess makes it parallel
+-- -- ... TODO? Jess makes it parallel
