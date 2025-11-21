@@ -115,15 +115,48 @@ allLefts = unfoldr (\t -> fmap dup (moveLeft t))
 
 instance Comonad Tape where
   extract :: Tape a -> a
-  extract (Tape asL a asR) = a
+  extract (Tape _ a _) = a
   duplicate :: Tape a -> Tape (Tape a)
   duplicate t = Tape (allLefts t) t (allRights t)
 
+-- game of life
+-- data Store coord a = Store (coord -> a)
 
--- TODO intro grid for game of life
+newtype Grid a = Grid ((Int, Int) -> a)
 
--- TODO define a comonad for it
+instance Functor Grid where
+  fmap :: (a -> b) -> Grid a -> Grid b
+  fmap f (Grid lookup) = Grid (\c -> f (lookup c))
+  -- fmap f (Grid lookup) = Grid (f . lookup)
+  -- a :: (Int, Int) -> a
 
--- TODO use the comonad to play the game
+instance Comonad Grid where
+  extract :: Grid a -> a
+  extract (Grid f) = f (0,0)
+
+  duplicate :: Grid a -> Grid (Grid a)
+  duplicate (Grid f) = Grid $ \(x,y) ->
+    Grid $ \(a,b) -> f (a+x,b+y)
+
+
+type Rule = Grid Bool -> Bool
+
+neighbourhood :: [(Int,Int)]
+neighbourhood = [(x,y) | x <- [-1..1], y <- [-1..1], (x,y) /= (0,0)]
+
+gameOfLifeRule :: Rule
+gameOfLifeRule g@(Grid lookup) =
+  let
+    -- alive = lookup (0,0)
+    alive = extract g
+    neighboursAlive = length $ filter (==True) [ lookup c | c <- neighbourhood]
+  in (not alive && neighboursAlive == 3)
+    || (alive && (neighboursAlive == 2 || neighboursAlive == 3))
+    -- || (alive && (neighboursAlive `elem` [2,3]))
+  -- let 
+
+step :: Rule -> Grid Bool -> Grid Bool
+-- step :: (Grid Bool -> Bool) -> Grid Bool -> Grid Bool
+step = extend
 
 -- ... TODO? Jess makes it parallel
