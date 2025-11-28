@@ -175,3 +175,75 @@ instance Profunctor Lens where
 -- or the journal extension that sam is involved with, see pdf monadic-profunctors-journal.pdf
 
 -- prisms
+
+data FunEither a b c = West a | Center b | East c
+
+-- for comemnted out p
+-- get L (put L s v) = v
+-- get L (put L (Center b) (Just a)) = (Just a)
+-- get L (Center b) = (Just a)
+-- Nothing = (Just a)
+-- !!!!!
+-- get L (put L s v) = v YES
+-- put L s (get L s) = s YES
+-- put l v' (put l v s) ≡ put l v' s
+-- put l v' (put l (Just a) (Center b)) ≡ put l v' s
+-- put l Nothing (West a) ≡ put l Nothing (Center b)
+-- West a ≡ Center b
+-- !!!!!!
+westL :: Lens (FunEither a b c) (Maybe a)
+westL = Lens g p
+    where
+        g (West a) = Just a
+        g _ = Nothing
+        p :: (FunEither a b c) -> (Maybe a) -> (FunEither a b c)
+        -- p (West a) (Just a') = West a'
+        p _ (Just a') = West a'
+        p fe _ = fe
+
+-- get funEitherL (put funEitherL s v) = v ? YES
+-- put L s (get L s) = s ? YES
+-- put l v' (put l v s) ≡ put l v' s ? YES
+-- good cos its structure preserving
+-- do most law breaks come from product type?
+
+funEitherL :: Lens (FunEither a a a) a
+funEitherL = Lens g p
+    where
+        g (West a) = a
+        g (Center a) = a
+        g (East a) = a
+        p (West _) a = West a
+        p (Center _) a = Center a
+        p (East _) a = East a
+
+-- -> Prism
+
+data Prism s v = Prism
+    { preview :: s -> Maybe v -- "get"
+    -- ,  reviewLuna :: s -> v -> Maybe s
+    -- Q what if prism's sums are products?
+    -- A we can compose a prism with a lens
+    ,  review :: v -> s -- ~ smart constructor
+    -- BX where one dir (preview) can fail, the other always succeeds
+    -- we can always make a sum type, we cant always map out
+    }
+
+westP :: Prism (FunEither a b c) a
+westP = Prism p r
+    where
+        p :: (FunEither a b c) -> Maybe a
+        p (West a) = Just a
+        p _ = Nothing
+        r :: a -> (FunEither a b c)
+        r a = West a
+
+-- laws?
+--   preview (review p v) == Just v
+--   preview p s == Just v => review p v == s
+
+
+-- postCompWL :: prism s a -> Lens a b -> prism s b
+
+-- many more!
+-- https://hackage.haskell.org/package/optics-0.4.2.1/docs/Optics.html

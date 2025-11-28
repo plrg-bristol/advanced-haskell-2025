@@ -54,9 +54,9 @@ More Advanced Haskell:
   * Prerequisites - Expressive power scaling / DSLs
 - Generalised Algebraic Data Types (GADTs) and "Dependent types"
   * Seminar lead: Jess
-- Lenses (+ prisms)
+- ~~Lenses (+ prisms)~~
   * Seminar lead: Sam
-- Comonads (game of life)
+- ~~Comonads (game of life)~~
   * Seminar lead: Sam
 
 I Can't Believe It's Not Haskell!:
